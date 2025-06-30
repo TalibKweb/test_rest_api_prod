@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <style>
+        .top_container {
+            max-width: 780px;
+            /* background-color: rgb(159, 180, 180); */
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="top_container container py-5 d-flex flex-column gap-5 ">
+
+        <h1 class="text-center">Welcome to Admin Dashboard</h1>
+
+        <div class="container d-flex  ">
+
+            <div class="m-0 d-flex flex-column container text-center  justify-content-center align-items-center gap-3 ">
+                <h2>Submit User Info</h2>
+                <form action="/api/users" method="POST" class="d-flex flex-column w-100 ">
+                    <input class="form-control form-text" type="number" name="id" placeholder="ID" required /><br />
+                    <input class="form-control form-text" type="text" name="name" placeholder="Name" required /><br />
+                    <input class="form-control form-text" type="text" name="slug" placeholder="Slug" required /><br />
+                    <input class="form-control form-text" type="text" name="gender" placeholder="Gender"
+                        required /><br />
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div
+                class=" m-0 d-flex flex-column container text-center py-0 justify-content-start align-items-center gap-3 ">
+                <h2>Delete User by ID</h2>
+                <form action="/api/users/delete" method="POST" class="d-flex flex-column w-100 gap-4 ">
+                    <input class="form-control form-text" type="number" name="id" placeholder="User ID to Delete"
+                        required>
+                    <button class="btn btn-warning text-white" type="submit">Delete User</button>
+                </form>
+
+            </div>
+        </div>
+
+        <a class="btn btn-danger" href="/logout">Logout</a>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
