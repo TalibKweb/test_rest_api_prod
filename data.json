@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Yanaton",
+        "slug": "yanaton",
+        "gender": "Male"
+    },
+    {
+        "id": 2,
+        "name": "Jule",
+        "slug": "jule",
+        "gender": "Male"
+    },
+    {
+        "id": 3,
+        "name": "Gertrud",
+        "slug": "gertrud",
+        "gender": "Female"
+    },
+    {
+        "id": 4,
+        "name": "Adamo",
+        "slug": "adamo",
+        "gender": "Male"
+    },
+    {
+        "id": 5,
+        "name": "Mindy",
+        "slug": "mindy",
+        "gender": "Female"
+    },
+    {
+        "id": 6,
+        "name": "Louie",
+        "slug": "louie",
+        "gender": "Male"
+    },
+    {
+        "id": 7,
+        "name": "Jimmie",
+        "slug": "jimmie",
+        "gender": "Male"
+    },
+    {
+        "id": 8,
+        "name": "Kary",
+        "slug": "kary",
+        "gender": "Female"
+    },
+    {
+        "id": 9,
+        "name": "Patsy",
+        "slug": "patsy",
+        "gender": "Female"
+    },
+    {
+        "id": 11,
+        "name": "Gehatu",
+        "slug": "gehatu",
+        "gender": "Male"
+    }
+]
