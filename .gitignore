@@ -1,2 +1,4 @@
 /node_modules
 .env
+data.json
+note_backup.txt
