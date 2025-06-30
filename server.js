@@ -55,12 +55,17 @@ app.get('/dashboard', (req, res) => {
   if (req.cookies.auth_token !== process.env.SECRET_TOKEN) {
     return res.redirect('/login');
   }
-  else {
-    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
-  }
+
+  // Prevent caching the dashboard page
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-// Logout Setup
+
+
+
+// Logout page
+// >>>>>>>>>>>>>>> Can add a logout page as well with timout and redirection
 app.get('/logout', (req, res) => {
   res.clearCookie('auth_token');
   res.redirect('/login')
