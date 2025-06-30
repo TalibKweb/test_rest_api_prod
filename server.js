@@ -15,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser()); // ✅ Parses cookies
 app.use(express.urlencoded({ extended: true })); // To handle form submissions
+// app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
@@ -33,7 +35,9 @@ app.post('/login', (req, res) => {
 
     res.cookie('auth_token', process.env.SECRET_TOKEN, {
       httpOnly: true, // JS can't access this
-      secure: false, // set to true in production with HTTPS
+      // secure: true, // set to true in production with HTTPS
+      secure: process.env.NODE_ENV === 'production', // true on Vercel
+      sameSite: 'strict'
     });
 
     return res.redirect('/dashboard');
@@ -65,7 +69,6 @@ app.get('/logout', (req, res) => {
 
 
 // Serve index.html at root
-app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
