@@ -7,6 +7,9 @@ const userRoutes = require('./routes')
 const app = express();
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 5000;
+const rateLimit = require("express-rate-limit");
+const checkAuthAdmin = require('./middleware/auth')
+
 require('./db/db');
 
 
@@ -19,15 +22,23 @@ app.use(express.urlencoded({ extended: true })); // To handle form submissions
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+const loginLimiter = rateLimit({
+  windowMs: 3 * 60 * 1000, // 5 minutes
+  max: 6, // limit each IP to 5 requests per window
+  message: 'Too many login attempts. Please try again later.'
+});
+
 
 // >>>>>>>>>> Serve Login Page
-app.get('/login', (req, res) => {
+app.get('/login', loginLimiter, (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 
 // >>>>>>>>>> Validate Login Page for Rediretion
-app.post('/login', (req, res) => {
+app.post('/login', loginLimiter, (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   let { username, password } = req.body;
 
   if (process.env.DASH_USERNAME === username &&
@@ -51,11 +62,7 @@ app.post('/login', (req, res) => {
 
 // >>>>>>>>>> Serve Dashboard Page with Authentication
 
-app.get('/dashboard', (req, res) => {
-  if (req.cookies.auth_token !== process.env.SECRET_TOKEN) {
-    return res.redirect('/login');
-  }
-
+app.get('/dashboard', checkAuthAdmin, (req, res) => {
   // Prevent caching the dashboard page
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
@@ -67,7 +74,11 @@ app.get('/dashboard', (req, res) => {
 // Logout page
 // >>>>>>>>>>>>>>> Can add a logout page as well with timout and redirection
 app.get('/logout', (req, res) => {
-  res.clearCookie('auth_token');
+  res.clearCookie('auth_token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+  });
   res.redirect('/login')
 
 });

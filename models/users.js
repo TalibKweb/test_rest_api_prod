@@ -8,7 +8,8 @@ let mongoose = require('mongoose');
 let userSchema = new mongoose.Schema({
     id: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,

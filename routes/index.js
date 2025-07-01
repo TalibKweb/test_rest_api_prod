@@ -2,13 +2,17 @@ const express = require('express');
 const router = express.Router();
 let User = require('../models/users')
 
+const checkAuthAdmin = require('../middleware/auth')
+
+// Middlewares
+// app.use(cookieParser()); // ✅ Parses cookies
 
 // >>>>>>>>>>>>>>>>> Find All
 router.get('/', async (req, res) => {
     // res.send('Hello Users!');
     try {
         // let all_users = await User.find();
-        const all_users = await User.find({}).sort({id: 1});
+        const all_users = await User.find({}).sort({ id: 1 });
         res.status(200).send(all_users)
     }
     catch (err) {
@@ -16,8 +20,6 @@ router.get('/', async (req, res) => {
         res.json({ message: err.message });
     }
 })
-
-
 
 // >>>>>>>>>>>>>>>>> Find by Slug
 router.get('/:slug', async (req, res) => {
@@ -31,11 +33,9 @@ router.get('/:slug', async (req, res) => {
     }
 })
 
-
-
-
 // >>>>>>>>>>>>>>>>> POST Single Data
-router.post('/', async (req, res) => {
+router.post('/', checkAuthAdmin, async (req, res) => {
+
     let newUser = new User({
         id: parseInt(req.body.id),
         name: req.body.name,
@@ -48,13 +48,14 @@ router.post('/', async (req, res) => {
     }
     catch (err) {
         res.status(400).json({ message: err.message });
-        res.status(400).json({ message: err.message });
+        // res.status(400).json({ message: err.message });
+        console.log('err.message', err.message)
     }
 });
 
 // router.put('/:id', updateTask);
 
-router.post('/delete', async (req, res) => {
+router.post('/delete', checkAuthAdmin, async (req, res) => {
     try {
         const id = parseInt(req.body.id);
         const user = await User.findOneAndDelete({ id: id });
@@ -65,9 +66,9 @@ router.post('/delete', async (req, res) => {
         res.send(`User with ID ${id} deleted successfully`);
     } catch (err) {
         res.status(500).send('Error deleting user');
+        console.log('err.message', err.message)
     }
 });
-
 
 
 module.exports = router;
