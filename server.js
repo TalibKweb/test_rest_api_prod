@@ -21,11 +21,18 @@ app.use(express.urlencoded({ extended: true })); // To handle form submissions
 // app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('trust proxy', 1); // Important for Vercel or Heroku
 
 const loginLimiter = rateLimit({
-  windowMs: 3 * 60 * 1000, // 5 minutes
-  max: 6, // limit each IP to 5 requests per window
-  message: 'Too many login attempts. Please try again later.'
+  windowMs: 2 * 60 * 1000, // 2 minutes
+  max: 14, // 14 login attempts per IP
+  standardHeaders: true, // Return rate limit info in the RateLimit-* headers
+  legacyHeaders: false,  // Disable X-RateLimit-* headers
+  handler: (req, res) => {
+    return res.status(429).json({
+      message: `Too many login attempts. Please try again in ${Math.ceil((req.rateLimit.resetTime - new Date()) / 1000)} seconds.`
+    });
+  },
 });
 
 
