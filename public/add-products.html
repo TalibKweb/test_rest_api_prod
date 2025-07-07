@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Add New Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" />
+    <style>
+        .main_container {
+            min-height: 90vh;
+            max-width: 520px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main_container container py-5 d-flex flex-column justify-content-center align-items-center gap-4 ">
+
+        <h1>Add New Product</h1>
+
+        <form action="/api/products" method="POST" class="w-100 d-flex flex-column gap-2" id="add_prod_form">
+            <input type="number" name="id" class="form-control my-2" id="id" placeholder="ID" required />
+            <input type="text" name="name" class="form-control my-2" id="name" placeholder="Name" required />
+            <input type="text" name="slug" class="form-control my-2" id="slug" placeholder="Slug" required />
+            <input type="text" name="feat_img" class="form-control my-2" id="feat_img" placeholder="Featured Image URL"
+                required />
+
+            <textarea name="img_gallery" class="form-control my-2" id="img_gallery"
+                placeholder="Image Gallery (comma-separated URLs)"></textarea>
+
+            <input type="number" name="reg_price" class="form-control my-2" id="reg_price" placeholder="Regular Price"
+                required>
+
+            <input type="number" name="sale_price" class="form-control my-2" id="reg_price" placeholder="Sale Price"
+                required>
+
+            <textarea name="description" class="form-control my-2" id="description"
+                placeholder="Product Description (HTML allowed)"></textarea>
+
+            <textarea name="specifications" class="form-control my-2" id="description"
+                placeholder="Specifications (HTML allowed)"></textarea>
+
+            <textarea name="compatibility" class="form-control my-2" id="description"
+                placeholder="Compatibility (HTML allowed)"></textarea>
+
+            <select name="inStock" class="form-control my-2" id="inStock">
+                <option value="true">In Stock</option>
+                <option value="false">Out of Stock</option>
+            </select>
+
+            <!-- <input type="text" name="category" class="form-control my-2" id="category" placeholder="Category"> -->
+
+            <select name="category" class="form-control my-2" id="category">
+                <option value="Power Banks">Power Banks</option>
+                <option value="Stand and Straps">Stand and Straps</option>
+                <option value="Covers and Cases">Covers and Cases</option>
+            </select>
+
+
+
+            Featured Collection:
+            <select name="featured_col" class="form-control my-2" id="featured_col">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+
+
+            <button type="submit" class="btn btn-primary">Submit Details</button>
+        </form>
+
+    </div>
+
+
+
+    <script>
+        // >>>>>>>>>>>> Re-check auth by requesting a secure resource (or reloading)
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+                window.location.reload();
+            }
+        });
+
+        // >>>>>>>>>>>> Convert Text to Slug
+        let prodName = document.getElementById('name');
+        let prodSlug = document.getElementById('slug');
+        prodSlug.addEventListener('click', (e) => {
+            // console.log(prodName.value);
+            if (!prodName.value) {
+                alert('first add product name')
+                prodSlug.value = '';
+            }
+            const getSlug = prodName.value.toLowerCase().replace(/&/g, 'and').replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+            prodSlug.value = getSlug;
+        })
+
+
+
+        // const add_prod_form = document.getElementById('add_prod_form');
+
+        // add_prod_form.addEventListener('submit', function (event) {
+        //     event.preventDefault(); // Prevent default form submission
+
+
+
+
+        //     const formData = new FormData(add_prod_form);
+
+        //     const data = {
+        //         id: Number(formData.get('id')),
+        //         name: formData.get('name'),
+        //         slug: formData.get('slug'),
+        //         feat_img: formData.get('feat_img'),
+        //         img_gallery: formData.get('img_gallery').split(',').map(url => url.trim()),
+        //         // img_gallery: formData.get('img_gallery'),
+        //         // img_gallery: [formData.get('img_gallery')],
+        //         price: {
+        //             reg_price: Number(formData.get('reg_price')),
+        //             sale_price: Number(formData.get('sale_price'))
+        //         },
+        //         description: formData.get('description'),
+        //         specifications: formData.get('specifications'),
+        //         compatibility: formData.get('compatibility') === 'null' ? null : formData.get('compatibility'),
+        //         inStock: formData.get('inStock'),
+        //         category: formData.get('category'),
+        //         featured_col: formData.get('featured_col')
+        //     };
+
+
+        //     // Convert to a plain object for easy access
+        //     const dataAsObject = Object.fromEntries(formData.entries());
+        //     console.log('Form data as object:', dataAsObject);
+
+        //     console.log('data', data)
+
+        //     // Access individual values
+        //     console.log('Prod Name:', formData.get('name'));
+        //     console.log('Img Gallery:', formData.get('img_gallery'));
+
+        // });
+
+
+
+
+
+
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

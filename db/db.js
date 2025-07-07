@@ -1,22 +1,19 @@
 const mongoose = require('mongoose');
 
 // >>>>>>>>>>>>>>>>>>>> Old Method
-mongoose.connect(process.env.DATABASE_CONNECTTION_URI)
-    .then(res =>  console.log('✅ MongoDB connected to DB:', mongoose.connection.name) )
-    .catch(err => console.log('Error Occured', err.message))
+// mongoose.connect(process.env.USER_DATABASE_CONNECTION_URI)
+//     .then(res =>  console.log('✅ MongoDB connected to DB:', mongoose.connection.name) )
+//     .catch(err => console.log('Error Occured', err.message))
 
-module.exports = mongoose;
+const userDB = mongoose.createConnection(process.env.USER_DATABASE_CONNECTION_URI)
+userDB.on('connected', () =>
+    console.log('✅ Connected to User DB:', userDB.name)
+);
 
-
-
-// let conn = null;
-// module.exports = async () => {
-//     if (conn) return conn
-//     conn = await mongoose.connect(process.env.DATABASE_CONNECTTION_URI, {
-//         dbName: 'users'
-//     });
-//     return conn;
-    
-// };
+const prodsDB = mongoose.createConnection(process.env.PRODS_DATABASE_CONNECTION_URI)
+prodsDB.on('connected', () =>
+    console.log('✅ Connected to Product DB:', prodsDB.name)
+);
 
 
+module.exports = { userDB, prodsDB };

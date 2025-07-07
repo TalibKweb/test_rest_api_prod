@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products</title>
+</head>
+
+<body>
+
+    <h2>All Products</h2>
+
+    <div id="cont"></div>
+
+
+
+    <script>
+        let cont = document.getElementById('cont');
+        (async () => {
+            let res = await fetch('/api/products');
+            let data = await res.json();
+            console.log(data);
+            let iHtml = ''
+            data.map((elem) => {
+                iHtml +=
+                    `<ul style="margin-bottom: 20px ;" > 
+                        <li>ID: ${elem.id}</li>
+                        <li>Title: ${elem.name}</li>
+                        <li>Description: ${elem.description}</li>
+                    </ul>`;
+            })
+            cont.innerHTML = iHtml
+        })()
+
+
+    </script>
+</body>
+
+</html>

@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-let User = require('../models/users')
-
+let User = require('../models/users');
 const checkAuthAdmin = require('../middleware/auth')
 
 // Middlewares
 // app.use(cookieParser()); // ✅ Parses cookies
 
-// >>>>>>>>>>>>>>>>> Find All
+// >>>>>>>>>>>>>>>>> Find All - Users
 router.get('/', async (req, res) => {
     // res.send('Hello Users!');
     try {
@@ -21,7 +20,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-// >>>>>>>>>>>>>>>>> Find by Slug
+// >>>>>>>>>>>>>>>>> Find by Slug - Users
 router.get('/:slug', async (req, res) => {
     try {
         // let single_user = await User.findOne({ id: req.params.id }); 
@@ -55,6 +54,8 @@ router.post('/', checkAuthAdmin, async (req, res) => {
 
 // router.put('/:id', updateTask);
 
+
+// Delete a User - Users
 router.post('/delete', checkAuthAdmin, async (req, res) => {
     try {
         const id = parseInt(req.body.id);
@@ -69,6 +70,5 @@ router.post('/delete', checkAuthAdmin, async (req, res) => {
         console.log('err.message', err.message)
     }
 });
-
 
 module.exports = router;

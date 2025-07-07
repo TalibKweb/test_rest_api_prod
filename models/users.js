@@ -1,9 +1,5 @@
 let mongoose = require('mongoose');
-
-// "id": 10,
-// "name": "Jason",
-// "slug": "jason",
-// "gender": "Agender"
+let { userDB } = require('../db/db');
 
 let userSchema = new mongoose.Schema({
     id: {
@@ -25,6 +21,5 @@ let userSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = userDB.model('User', userSchema);
 // 👈 The third parameter in mongoose.model() tells Mongoose to use all_users as the collection name exactly as it is.
-

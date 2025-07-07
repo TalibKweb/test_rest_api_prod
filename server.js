@@ -3,7 +3,8 @@ const express = require('express');
 // const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
-const userRoutes = require('./routes')
+const userRoutes = require('./routes/userRoutes')
+const productsRoutes = require('./routes/productsRoutes')
 const app = express();
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 5000;
@@ -68,7 +69,6 @@ app.post('/login', loginLimiter, (req, res) => {
 
 
 // >>>>>>>>>> Serve Dashboard Page with Authentication
-
 app.get('/dashboard', checkAuthAdmin, (req, res) => {
   // Prevent caching the dashboard page
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
@@ -76,9 +76,24 @@ app.get('/dashboard', checkAuthAdmin, (req, res) => {
 });
 
 
+// >>>>>>>>>> Serve Add New Product Page with Authentication
+app.get('/add-new-product', checkAuthAdmin, (req, res) => {
+  // Prevent caching the dashboard page
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.sendFile(path.join(__dirname, 'public', 'add-products.html'));
+});
 
 
-// Logout page
+// >>>>>>>>>> Serve All Product Page with Authentication
+app.get('/all-products', checkAuthAdmin, (req, res) => {
+  // Prevent caching the dashboard page
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.sendFile(path.join(__dirname, 'public', 'products.html'));
+});
+
+
+
+// Logout Route
 // >>>>>>>>>>>>>>> Can add a logout page as well with timout and redirection
 app.get('/logout', (req, res) => {
   res.clearCookie('auth_token', {
@@ -98,9 +113,10 @@ app.get('/', (req, res) => {
 
 
 
-
 // Route Setup
 app.use('/api/users', userRoutes);
+app.use('/api/products', productsRoutes);
+
 
 
 // Handle all other unknown routes with 404 page
@@ -110,7 +126,5 @@ app.use((req, res) => {
   }
   res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
-
-
 
 app.listen(port, () => console.log(`App live on server http://localhost:${port}`))
