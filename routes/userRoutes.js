@@ -3,8 +3,7 @@ const router = express.Router();
 let User = require('../models/users');
 const checkAuthAdmin = require('../middleware/auth')
 
-// Middlewares
-// app.use(cookieParser()); // ✅ Parses cookies
+
 
 // >>>>>>>>>>>>>>>>> Find All - Users
 router.get('/', async (req, res) => {

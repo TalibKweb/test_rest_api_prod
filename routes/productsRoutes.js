@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const router = express.Router();
 let Product = require('../models/products');
@@ -7,7 +8,7 @@ const checkAuthAdmin = require('../middleware/auth')
 // >>>>>>>>>>>>>>>>> Find All - Products
 router.get('/', async (req, res) => {
     try {
-        const all_prods = await Product.find({},  { _id: 0, __v: 0 }).sort({ id: 1 });
+        const all_prods = await Product.find({}, { _id: 0, __v: 0 }).sort({ id: 1 });
         res.status(200).send(all_prods)
     }
     catch (err) {
@@ -51,7 +52,9 @@ router.post('/', checkAuthAdmin, async (req, res) => {
     })
     try {
         let saveProduct = await newProduct.save();
-        res.status(201).json(saveProduct);
+        // res.status(201).json(saveProduct);
+        // res.status(201).sendFile(path.join(__dirname, 'public', 'products.html'));
+        res.redirect('/all-products');
     }
     catch (err) {
         res.status(400).json({ message: err.message });
